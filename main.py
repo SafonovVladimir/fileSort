@@ -29,6 +29,9 @@ def f_start():
                     messagebox.showerror('Error', 'Немає доступу до одного з файлів!')
                     root.destroy()
         messagebox.showinfo('Success', 'Сортування виконано вдало!')
+        e_path.delete(0, END)
+    else:
+        messagebox.showwarning('Warning', 'Оберить папку для сортування файлів')
 
 
 root = Tk()
