@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
-
+import os
+from datetime import datetime
+from tkinter import messagebox
 
 def choose_dir():
     dir_path = filedialog.askdirectory()
@@ -9,7 +11,18 @@ def choose_dir():
     e_path.insert(0, dir_path)
 
 def f_start():
-    pass
+    cur_path = e_path.get()
+    if cur_path:
+        for folder, subfolder, files in os.walk(cur_path):
+            for file in files:
+                path = os.path.join(folder, file)
+                mtime = os.path.getmtime(path)
+                date = datetime.fromtimestamp(mtime).date()
+                date_folder = os.path.join(cur_path, str(date))
+                if not os.path.exists(date_folder):
+                    os.mkdir(date_folder)
+                os.rename(path, os.path.join(date_folder, file))
+        messagebox.showinfo('Success', 'Сортування виконано вдало!')
 
 
 root = Tk()
