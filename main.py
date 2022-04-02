@@ -5,10 +5,12 @@ import os
 from datetime import datetime
 from tkinter import messagebox
 
+
 def choose_dir():
     dir_path = filedialog.askdirectory()
     e_path.delete(0, END)
     e_path.insert(0, dir_path)
+
 
 def f_start():
     cur_path = e_path.get()
@@ -19,9 +21,13 @@ def f_start():
                 mtime = os.path.getmtime(path)
                 date = datetime.fromtimestamp(mtime).date()
                 date_folder = os.path.join(cur_path, str(date))
-                if not os.path.exists(date_folder):
-                    os.mkdir(date_folder)
-                os.rename(path, os.path.join(date_folder, file))
+                try:
+                    if not os.path.exists(date_folder):
+                        os.mkdir(date_folder)
+                    os.rename(path, os.path.join(date_folder, file))
+                except:
+                    messagebox.showerror('Error', 'Немає доступу до одного з файлів!')
+                    root.destroy()
         messagebox.showinfo('Success', 'Сортування виконано вдало!')
 
 
